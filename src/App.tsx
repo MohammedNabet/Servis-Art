@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import "./App.css";
 import ProvidersSlider from "./components/ProvidersSlider";
 import { PROVIDERS } from "./data/providers";
