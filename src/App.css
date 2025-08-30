@@ -1,3 +1,46 @@
+/* ================== THEME TOKENS ================== */
+:root{
+  --bg: #f8fafc;
+  --bg-soft: #ffffff;
+  --text: #0f172a;
+  --muted: #334155;
+  --border: #e2e8f0;
+  --pill: #ffffff;
+  --pill-border: #e2e8f0;
+
+  --brand-1:#7C5CFF;
+  --brand-2:#2B86FF;
+
+  --star-full:#F59E0B;
+  --star-half:#FBBF24;
+
+  --shadow-lg: 0 16px 40px rgba(16,24,40,.08);
+  --shadow-md: 0 10px 28px rgba(0,0,0,.08);
+}
+
+:root.dark{
+  --bg: #0b1220;
+  --bg-soft: #0f172a;
+  --text: #e5e7eb;
+  --muted: #94a3b8;
+  --border: #1f2937;
+  --pill: #0f172a;
+  --pill-border: #1f2937;
+
+  --brand-1:#8B5CF6;
+  --brand-2:#06B6D4;
+
+  --shadow-lg: 0 16px 40px rgba(0,0,0,.45);
+  --shadow-md: 0 10px 28px rgba(0,0,0,.35);
+}
+
+/* تحسين أوتوماتيكي حسب نظام المستخدم */
+@media (prefers-color-scheme: dark){
+  :root:not(.dark){ /* نخلي الزر يتحكم؛ ما نفرضش دارك إلى كان class */
+    /* ميمكنش نبدلو هنا مباشرة بلا class، نخليه اختياري */
+  }
+}
+
 /* ===== أساسيات ونسخ مسيطر على Vite ===== */
 *{box-sizing:border-box}
 html,body,#root{height:100%}
@@ -10,37 +53,57 @@ html,body,#root{height:100%}
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:#f8fafc; direction:rtl; color:#0f172a;
-  overflow-x:clip;                 /* يمنع سكرول أفقي */
+  background:var(--bg); direction:rtl; color:var(--text);
+  overflow-x:clip;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
+a,button,input,select,textarea{font:inherit;color:inherit}
+img{max-width:100%;display:block}
 
 /* ✅ كل السكاشن بعرض كامل */
 .container{
   width:100%;
   max-width:100%;
   margin:0;
-  padding-inline:0;                /* بلا حواف جانبية */
+  padding-inline:0;
 }
 
 /* أدوات */
 .grid{display:grid;gap:24px}
 .cards-3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
 .section{padding:56px 0}
-.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#fff;border:1px solid #e2e8f0}
+.pill{
+  display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;
+  background:var(--pill);border:1px solid var(--pill-border)
+}
 
 /* أزرار */
-.btn{display:inline-block;border-radius:999px;border:none;background:linear-gradient(90deg,#7C5CFF,#2B86FF);color:#fff;padding:10px 18px;font-weight:800;text-decoration:none}
-.btn.outline{background:#fff;color:#7C5CFF;border:1px solid #cbd5e1}
+.btn{
+  display:inline-block;border-radius:999px;border:none;
+  background:linear-gradient(90deg,var(--brand-1),var(--brand-2));
+  color:#fff;padding:10px 18px;font-weight:800;text-decoration:none;
+  transition: filter .15s ease, transform .15s ease;
+}
+.btn:hover{ filter:brightness(1.05); transform:translateY(-1px) }
+.btn:active{ transform:translateY(0) }
+.btn:focus-visible{ outline:3px solid color-mix(in oklab, var(--brand-2) 40%, transparent); outline-offset:2px }
+
+.btn.outline{
+  background:transparent;color:var(--brand-1);
+  border:1px solid color-mix(in oklab, var(--brand-1) 38%, var(--border));
+}
 .btn.small{padding:8px 14px;font-size:13px}
-.btn.ghost{background:#fff;color:#1e293b;border:1px solid #e2e8f0}
+.btn.ghost{background:var(--bg-soft);color:var(--text);border:1px solid var(--border)}
 
 /* نافيغاسيون */
-.nav{background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:20}
-.nav__inner{display:flex;justify-content:space-between;align-items:center;padding:12px 24px} /* padding بسيط فقط */
-.brand{text-decoration:none;color:#1e293b;font-weight:900}
-.brand-accent{color:#7C5CFF}
+.nav{background:var(--bg-soft);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20}
+.nav__inner{display:flex;justify-content:space-between;align-items:center;padding:12px 24px}
+.brand{text-decoration:none;color:var(--text);font-weight:900}
+.brand-accent{color:var(--brand-1)}
 .nav__links{display:flex;gap:14px;flex-wrap:wrap}
-.nav__links a{color:#334155;text-decoration:none;font-weight:700}
+.nav__links a{color:var(--muted);text-decoration:none;font-weight:700}
+.nav__links a:hover{color:var(--text)}
 
 /* ===== Hero بالصورة — full width ===== */
 .hero{padding:0}
@@ -54,35 +117,50 @@ body{
   background-repeat:no-repeat;
   display:flex;
 }
+:root.dark .hero--image{
+  background-image:
+    linear-gradient(180deg, rgba(0,0,0,.5), rgba(0,0,0,.2)),
+    url("https://www.parmarecordings.com/parmaweb/wp-content/uploads/2022/03/Design-Cover-Piece.jpg");
+}
 .hero__container{
   width:100%;
   min-height:44vh;
   display:flex; align-items:center; justify-content:flex-end;
-  padding:24px;                    /* هامش داخلي موحّد */
+  padding:24px;
 }
 .hero__content{
-  background:rgba(255,255,255,.88);
+  background:color-mix(in oklab, var(--bg-soft) 82%, transparent);
   backdrop-filter:blur(8px);
   border-radius:14px;
   padding:16px 18px;
   max-width:720px;
-  box-shadow:0 10px 28px rgba(0,0,0,.08);
+  box-shadow:var(--shadow-md);
 }
 .hero__content h1{margin:0 0 6px;font-size:clamp(20px,2.6vw,34px);line-height:1.25}
-.txt-gradient{background:linear-gradient(90deg,#7C5CFF,#2B86FF);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero__sub{margin:0 0 10px;color:#334155;font-size:14px}
+.txt-gradient{background:linear-gradient(90deg,var(--brand-1),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero__sub{margin:0 0 10px;color:var(--muted);font-size:14px}
 .hero__btn{margin-top:4px}
 
 /* البحث */
-.section--tinted{background:linear-gradient(180deg,rgba(124,92,255,.06),rgba(255,255,255,.7))}
+.section--tinted{
+  background:linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--brand-1) 10%, transparent),
+    color-mix(in oklab, var(--bg) 92%, transparent)
+  );
+}
 .search{
   display:grid;
   grid-template-columns:1.2fr .8fr 1fr auto auto; /* نص، مدينة، سعر، زرّان */
   gap:12px; align-items:center;
-  background:#fff;border:1px solid #e2e8f0;border-radius:16px;padding:12px;
-  margin-inline:24px;             /* مساحة جانبية خفيفة لهذا القسم فقط */
+  background:var(--bg-soft);border:1px solid var(--border);border-radius:16px;padding:12px;
+  margin-inline:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.03);
 }
-.search input,.search select{width:100%;padding:12px;border:1px solid #e2e8f0;border-radius:10px;background:#fff}
+.search input,.search select{
+  width:100%;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--bg-soft);color:var(--text)
+}
+.search input::placeholder{color:color-mix(in oklab, var(--muted) 70%, transparent)}
 .price-filter{display:flex;align-items:center;gap:10px}
 .price-filter__value{font-weight:800}
 
@@ -95,45 +173,57 @@ body{
 }
 
 /* الكاردات (Providers) */
-.provider{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;overflow:hidden;margin-inline:24px}
-.provider__thumb{width:100%;height:170px;border-radius:16px;overflow:hidden;background:#e2e8f0;border:1px solid #cbd5e1}
+.provider{
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;overflow:hidden;margin-inline:24px
+}
+.provider__thumb{width:100%;height:170px;border-radius:16px;overflow:hidden;background:var(--border);border:1px solid var(--border)}
 .provider__img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .25s ease}
 .provider:hover .provider__img{transform:scale(1.05)}
 .provider__meta{display:flex;flex-direction:column;gap:6px;align-items:center}
 .provider__title{margin:0;font-size:18px;font-weight:800}
-.provider__role{color:#475569;font-size:14px}
+.provider__role{color:var(--muted);font-size:14px}
 .provider__info{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
-.tag{padding:6px 10px;border-radius:999px;background:#fff;border:1px solid #e2e8f0;font-size:13px}
-.tag.price{background:#f1f5ff;border-color:#dbeafe;font-weight:800}
+.tag{
+  padding:6px 10px;border-radius:999px;background:var(--pill);
+  border:1px solid var(--pill-border);font-size:13px;color:var(--text)
+}
+.tag.price{
+  background:color-mix(in oklab, var(--brand-2) 16%, var(--bg));
+  border-color:color-mix(in oklab, var(--brand-2) 28%, var(--border));
+  font-weight:800
+}
 .tags{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
 .provider__cta{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:4px}
 
 /* نجوم */
 .stars{display:inline-flex;align-items:center;gap:4px}
-.star{width:16px;height:16px;fill:#e2e8f0}
-.star.full{fill:#F59E0B}.star.half{fill:#FBBF24}
-.stars__num{font-size:12px;font-weight:700;color:#334155}
+.star{width:16px;height:16px;fill:#33415522}
+.star.full{fill:var(--star-full)}
+.star.half{fill:var(--star-half)}
+.stars__num{font-size:12px;font-weight:700;color:var(--muted)}
 
 /* Empty state */
-.empty{background:#fff;border:1px dashed #cbd5e1;border-radius:16px;padding:18px;text-align:center;margin-inline:24px}
+.empty{
+  background:var(--bg-soft);border:1px dashed var(--border);border-radius:16px;padding:18px;text-align:center;margin-inline:24px
+}
 
 /* فئات */
 .cats{display:flex;gap:10px;flex-wrap:wrap;margin-inline:24px}
-.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:#fff;border:1px solid #e2e8f0;text-decoration:none;color:#0f172a;font-weight:700}
+.chip{
+  display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+  background:var(--bg-soft);border:1px solid var(--border);text-decoration:none;color:var(--text);font-weight:700
+}
 .chip__emoji{font-size:18px}
 
 /* فوتر */
-.footer{padding:32px 24px;color:#64748b}
+.footer{padding:32px 24px;color:var(--muted)}
 .footer__inner{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 .footer__links{display:flex;gap:12px}
 .footer__links a{text-decoration:none;color:inherit}
-.footer__links a:hover{color:#334155}
+.footer__links a:hover{color:var(--text)}
 
 /* ===== Providers Slider (Responsive + Desktop متعدد) ===== */
-.slider{
-  position:relative;
-  padding-block:6px;
-}
+.slider{ position:relative; padding-block:6px; }
 
 .slider__track{
   display:grid;
@@ -148,51 +238,26 @@ body{
   -webkit-overflow-scrolling:touch;
   scrollbar-width:none;
 }
-/*test*/
 .slider__track::-webkit-scrollbar{ display:none }
-
-/* تدرّج جميل على الجوانب */
-.slider__fade{
-  position:absolute; top:0; bottom:0; width:60px; pointer-events:none; z-index:1;
-}
-.slider__fade--start{ inset-inline-start:0; background:linear-gradient(to left, transparent) }
-.slider__fade--end{ inset-inline-end:0;  background:linear-gradient(to right, transparent) }
-
-/* أزرار */
-.slider__btn{
-  position:absolute; top:50%; transform:translateY(-50%);
-  width:42px; height:42px; border-radius:999px; border:1px solid #e2e8f0;
-  background:#fff; box-shadow:0 10px 28px rgba(0,0,0,.08);
-  display:flex; align-items:center; justify-content:center;
-  font-size:28px; line-height:1; color:#1e293b; cursor:pointer; z-index:2;
-}
-.slider__btn--prev{ inset-inline-start:8px }
-.slider__btn--next{ inset-inline-end:8px }
-.slider__btn:hover{ transform:translateY(-50%) scale(1.04) }
 
 /* بطاقات داخل السلايدر */
 .provider--card{
   scroll-snap-align:start;
   background: rgba(255,255,255,.86);
   backdrop-filter: blur(10px);
-  border:1px solid rgba(124,92,255,.14);
+  border:1px solid color-mix(in oklab, var(--brand-1) 14%, var(--border));
   border-radius:20px;
   transition: transform .2s ease, box-shadow .2s ease;
 }
+:root.dark .provider--card{
+  background: color-mix(in oklab, var(--bg-soft) 86%, transparent);
+}
 .provider--card:hover{
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(124,92,255,.18);
+  box-shadow: var(--shadow-lg);
 }
 
 /* Desktop: أكثر من بطاقة فالعرض (ماشي بحال الموبايل) */
 @media (min-width: 640px){ .slider__track{ grid-auto-columns: 48% } }
 @media (min-width: 900px){ .slider__track{ grid-auto-columns: 32% } }  /* ~3 بطاقات */
 @media (min-width: 1280px){ .slider__track{ grid-auto-columns: 24% } } /* ~4 بطاقات */
-
-/* نجوم أدق */
-.star{ width:16px; height:16px; fill:#e2e8f0 }
-.star.full{ fill:#F59E0B }
-.star.half{ fill:#FBBF24 }
-.stars{ display:inline-flex; align-items:center; gap:4px }
-.stars__num{ font-size:12px; font-weight:700; color:#334155 }
-
