@@ -3,7 +3,7 @@ import "./App.css";
 import ProvidersSlider from "./components/ProvidersSlider";
 import { PROVIDERS } from "./data/providers";
 
-
+/** */
 
 const CITIES = ["الدار البيضاء", "الرباط", "فاس", "مراكش", "طنجة", "أكادير"];
 
