@@ -44,7 +44,7 @@ export default function ProvidersSlider({ items }: { items: Provider[] }) {
       }
     }
   };
-
+/*t*/
   if (!items.length) return <div className="empty">لا توجد نتائج حالياً.</div>;
 
   return (
